@@ -3,7 +3,7 @@ id: minting-nfts
 title: Minting NFTs
 sidebar_label: Minting NFTs
 description: How to mint NFTs on Cardano. 
-image: ./img/og-developer-portal.png
+image: ../img/og/og-developer-portal.png
 ---
 
 <iframe width="100%" height="325" src="https://www.youtube.com/embed/n5x9bvrOHW0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture fullscreen"></iframe>
@@ -17,9 +17,9 @@ What is the difference between native assets and NFTs?
 From a technical point of view, NFTs are the same as native assets. But some additional characteristics make a native asset truly an NFT:
 
 1. As the name states - it must be 'non-fungible. This means you need to have unique identifiers or attributes attached to a token to make it distinguishable from others.
-2. Most of the time, NFT's should live on the blockchain forever. Therefore we need some mechanism to ensure an NFT stays unique and can not be duplicated.
+2. Most of the time, NFT's should live on the chain forever. Therefore we need some mechanism to ensure an NFT stays unique and can not be duplicated.
 
-### The policyID 
+### The policyID
 Native assets in Cardano feature the following characteristics:
 1. An amount/value (how much are there?)
 2. A name 
@@ -83,7 +83,7 @@ You can regulate such factors with  [multi-signature scripts](https://github.com
 For this guide, we will choose the following constraints:
 
 1. There should be only one defined signature allowed to mint (or burn) the NFT.
-2. The signature will expire in **10000 blocks** from now to leave the room if we screw something up.
+2. The signature will expire in **10000 slots** from now to leave the room if we screw something up.
 
 
 ## Prerequisites
@@ -94,16 +94,16 @@ Apart from the same requisites as on the [minting native assets](minting.md) gui
 2. An already populated `metadata.json`  
 3. Know how your minting policy should look like.
 --> Only one signature allowed (which we will create in this guide)  
---> No further minting or burning of the asset allowed after 10000 blocks have passed since the transaction was made
+--> No further minting or burning of the asset allowed after 10000 slots have passed since the transaction was made
 4. Hash if uploaded image to IPFS  
 --> We will use this [image](https://gateway.pinata.cloud/ipfs/QmRhTTbUrPYEw3mJGGhQqQST9k86v1DPBiTTWJGKDJsVFw)
 
 :::note
-We recommend upload images to IPFS as it is the most common decentralized storage service. There are alternatives, but IFPS has the biggest adoption in terms of how many NFTs got minted.
+We recommend upload images to IPFS as it is the most common decentralized storage service. There are alternatives, but IPFS has the biggest adoption in terms of how many NFTs got minted.
 :::
 
 ## Setup
-Since the creation of native assets is documented extensively in the [minting](minting-nfts.md) chapter, we won't go into much detail here.
+Since the creation of native assets is documented extensively in the [minting](minting.md) chapter, we won't go into much detail here.
 Here's a little recap and needed setup
 
 ### Working directory
@@ -116,15 +116,18 @@ cd nft/
 
 ### Set variables
 We will set important values in a more readable variable for better readability and debugging of failed transactions.
+
+Since cardano-node version 1.31.0 the token name should be in hex format. We will set the variable $realtokenname (real name in utf-8) and then convert it to $tokenname (name in hex format). 
 ```bash
-tokenname="NFT1"
+realtokenname="NFT1"
+tokenname=$(echo -n $realtokenname | xxd -b -ps -c 80 | tr -d '\n')
 tokenamount="1"
 fee="0"
 output="0"
 ipfs_hash="please insert your ipfs hash here"
 ```
 :::note
-The IFPS hash is a key requirement and can be found once you upload your image to IPFS. Here's an example of how the IPFS looks like when an image is uploaded in [pinata](https://pinata.cloud/)
+The IPFS hash is a key requirement and can be found once you upload your image to IPFS. Here's an example of how the IPFS looks like when an image is uploaded in [pinata](https://pinata.cloud/)
 ![img](../../static/img/nfts/pinata_pin.PNG)
 :::
 
@@ -196,7 +199,7 @@ cardano-cli address key-gen \
 Instead of only defining a single signature (as we did in the native asset minting guide), our script file needs to implement the following characteristics (which we defined above):
 
 1. Only one signature allowed
-2. No further minting or burning of the asset allowed after 10000 blocks have passed since the transaction was made
+2. No further minting or burning of the asset allowed after 10000 slots have passed since the transaction was made
 
 For this specific purpose `policy.script` file which will look like this:
 
@@ -246,7 +249,7 @@ To generate the `keyHash`, use the following command:
 cardano-cli address key-hash --payment-verification-key-file policy/policy.vkey
 ```
 
-To calculate the correct slot, query the current block and add 10000 to it:
+To calculate the correct slot, query the current slot and add 10000 to it:
 ```bash
 cardano-cli query tip --mainnet
 ```
@@ -279,7 +282,7 @@ script="policy/policy.script"
 The last step is to generate the policyID:
 
 ```bash
-cardano-cli transaction policyid --script-file ./policy/policy.script >> policy/policyID
+cardano-cli transaction policyid --script-file ./policy/policy.script > policy/policyID
 ```
 
 ### Metadata
@@ -314,7 +317,7 @@ If you want to generate it "on the fly," use the following commands:
 echo "{" >> metadata.json
 echo "  \"721\": {" >> metadata.json 
 echo "    \"$(cat policy/policyID)\": {" >> metadata.json 
-echo "      \"$(echo $tokenname)\": {" >> metadata.json
+echo "      \"$(echo $realtokenname)\": {" >> metadata.json
 echo "        \"description\": \"This is my first NFT thanks to the Cardano foundation\"," >> metadata.json
 echo "        \"name\": \"Cardano foundation NFT guide token\"," >> metadata.json
 echo "        \"id\": \"1\"," >> metadata.json
@@ -326,7 +329,7 @@ echo "}" >> metadata.json
 ```
 
 :::note
-Please make sure the image value / IFPS hash is set with the correct protocol pre-fix <i>ipfs://</i>  
+Please make sure the image value / IPFS hash is set with the correct protocol pre-fix <i>ipfs://</i>  
 (for example <i>"ipfs://QmRhTTbUrPYEw3mJGGhQqQST9k86v1DPBiTTWJGKDJsVFw"</i>)
 
 :::
@@ -355,7 +358,10 @@ txhash="insert your txhash here"
 txix="insert your TxIx here"
 funds="insert Amount in lovelace here"
 policyid=$(cat policy/policyID)
+output=1400000
 ```
+
+Here we are setting the `output` value to `1400000` Lovelace which is equivalent to `1.4` ADA. This amount is used because this is the minimum UTxO requirement.
 
 If you're unsure, check if all of the other needed variables for the transaction are set:
 
@@ -370,45 +376,44 @@ echo $slotnumber
 echo $script
 ```
 
-If everything is set, run this command to generate a raw transaction file.
+If everything is set, run the following command:
 
 ```bash
-cardano-cli transaction build-raw \
---fee $fee  \
---tx-in $txhash#$txix  \
+cardano-cli transaction build \
+--mainnet \
+--alonzo-era \
+--tx-in $txhash#$txix \
 --tx-out $address+$output+"$tokenamount $policyid.$tokenname" \
+--change-address $address \
 --mint="$tokenamount $policyid.$tokenname" \
 --minting-script-file $script \
 --metadata-json-file metadata.json  \
 --invalid-hereafter $slotnumber \
+--witness-override 2 \
 --out-file matx.raw
 ```
 
-As with every other transaction, we need to calculate the fee and the output and save them in the corresponding variables (currently set to zero).
-
-Use this command to set the <i>$fee</i> variable.
-```bash
-fee=$(cardano-cli transaction calculate-min-fee --tx-body-file matx.raw --tx-in-count 1 --tx-out-count 1 --witness-count 1 --mainnet --protocol-params-file protocol.json | cut -d " " -f1)
-```
-
-And this command calculates the correct value for <i>$output</i>.
-```bash
-output=$(expr $funds - $fee)
-```
-
-With the newly set values, re-issue the building of the raw transaction.
+The above command may generate output as per below:
 
 ```bash
-cardano-cli transaction build-raw \
---fee $fee  \
---tx-in $txhash#$txix  \
---tx-out $address+$output+"$tokenamount $policyid.$tokenname" \
---mint="$tokenamount $policyid.$tokenname" \
---minting-script-file $script \
---metadata-json-file metadata.json  \
---invalid-hereafter $slotnumber \
---out-file matx.raw
+Minimum required UTxO: Lovelace 1448244
 ```
+
+This means that we need to change the value of the `$output` variable to the given value.
+
+```
+output=1448244
+```
+
+Remember to use the value that you got in your own output.
+
+If the minimum value was right then this command will generate `matx.raw` and will give output similar to:
+
+```bash
+Estimated transaction fee: Lovelace 176677
+```
+
+__NOTE__: Its possible that the Lovelace value for you is different.
 
 Sign the transaction
 
@@ -459,33 +464,22 @@ burnfee="0"
 burnoutput="0"
 txhash="Insert your utxo holding the NFT"
 txix="Insert your txix"
+burnoutput=1400000
 ```
+
+Here we are setting the `output` value to `1400000` Lovelace which is equivalent to `1.4` ADA. This amount is used because this is the minimum UTxO requirement.
 
 The transaction looks like this:
 
 ```bash
-cardano-cli transaction build-raw --fee $burnfee --tx-in $txhash#$txix --tx-out $address+$burnoutput --mint="-1 $policyid.$tokenname" --minting-script-file $script --invalid-hereafter $slot --out-file burning.raw
+cardano-cli transaction build --mainnet --alonzo-era --tx-in $txhash#$txix --tx-out $address+$burnoutput --mint="-1 $policyid.$tokenname" --minting-script-file $script --change-address $address --invalid-hereafter $slot --witness-override 2 --out-file burning.raw
 ```
 
 :::note
 The minting parameter is now called with a negative value, therefore destroying one token.
 :::
 
-Calculate the fee to burn the token.
 
-```bash
-burnfee=$(cardano-cli transaction calculate-min-fee --tx-body-file burning.raw --tx-in-count 1 --tx-out-count 1 --witness-count 1 --mainnet --protocol-params-file protocol.json | cut -d " " -f1)
-```
-
-Calculate the leftovers/output.
-```bash
-burnoutput=$(expr $funds - $burnfee)
-```
-
-Re-run the transaction build.
-```bash
-cardano-cli transaction build-raw --fee $burnfee --tx-in $txhash#$txix --tx-out $address+$burnoutput --mint="-1 $policyid.$tokenname" --minting-script-file $script --invalid-hereafter 33005389 --out-file burning.raw
-```
 Sign the transaction.
 ```bash
 cardano-cli transaction sign  --signing-key-file payment.skey  --signing-key-file policy/policy.skey --mainnet  --tx-body-file burning.raw --out-file burning.signed

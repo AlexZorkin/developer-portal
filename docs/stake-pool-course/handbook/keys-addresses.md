@@ -3,7 +3,7 @@ id: keys-addresses
 title: Creating keys and addresses
 sidebar_label: Creating keys and addresses
 description: "Stake pool course: Creating keys and addresses."
-image: ./img/og-developer-portal.png
+image: ../img/og-developer-portal.png
 ---
 
 In the Shelley era of Cardano, every stakeholder can have two sets of keys and addresses:
@@ -21,53 +21,39 @@ To generate a _payment key pair_:
 
 ```sh
 cardano-cli address key-gen \
---verification-key-file payment.vkey \
---signing-key-file payment.skey
+    --verification-key-file payment.vkey \
+    --signing-key-file payment.skey
 ```
 This creates two files `payment.vkey` (the _public verification key_) and `payment.skey` (the _private signing key_).
-
-## Legacy key
-
-To generate Byron-era _payment key_:
-
-Payment key files use the following format:
-```json
-{
-    "type": "PaymentSigningKeyByron_ed25519_bip32",
-    "description": "Payment Signing Key",
-    "cborHex": "hex-here"
-}
-```
-
-Where the `hex-here` is generated as `0x5880 | xprv | pub | chaincode`
 
 ## Stake key pair
 To generate a _stake key pair_ :
 
 ```sh
 cardano-cli stake-address key-gen \
---verification-key-file stake.vkey \
---signing-key-file stake.skey
+    --verification-key-file stake.vkey \
+    --signing-key-file stake.skey
 ```
 ## Payment address
 Both verification keys (`payment.vkey` and `stake.vkey`) are used to build the address and the resulting `payment address` is associated with these keys.
 
 ```sh
 cardano-cli address build \
---payment-verification-key-file payment.vkey \
---stake-verification-key-file stake.vkey \
---out-file payment.addr \
---mainnet
+    --payment-verification-key-file payment.vkey \
+    --stake-verification-key-file stake.vkey \
+    --out-file payment.addr \
+    --mainnet
 ```
+
 ## Stake address
 
 To generate a `stake address`:
 
 ```sh
 cardano-cli stake-address build \
---stake-verification-key-file stake.vkey \
---out-file stake.addr \
---mainnet
+    --stake-verification-key-file stake.vkey \
+    --out-file stake.addr \
+    --mainnet
 ```
 This address __CAN'T__ receive payments but will receive the rewards from participating in the protocol.
 
@@ -82,6 +68,6 @@ To query the balance of an address we need a running node and the environment va
 
 ```sh
 cardano-cli query utxo \
---address $(cat payment.addr) \
---mainnet
+    --address $(cat payment.addr) \
+    --mainnet
 ```

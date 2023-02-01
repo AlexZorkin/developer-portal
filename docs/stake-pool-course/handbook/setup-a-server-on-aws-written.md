@@ -3,7 +3,7 @@ id: setup-a-server-on-aws-written
 title: Setup a Linux server on AWS
 sidebar_label: Setup a Linux server on AWS
 description: "Stake pool course: Learn how to setup Linux server on AWS."
-image: ./img/og-developer-portal.png
+image: ../img/og/og-developer-portal.png
 --- 
 
 If you do not have access to a computer running Linux \(or VirtualBox\), you can use Amazon Web Services \(AWS\) to create a cloud-based virtual machine running Linux for free. To do so, please follow the steps below:
@@ -55,10 +55,7 @@ If you do not have access to a computer running Linux \(or VirtualBox\), you can
 
 ![img](../../../static/img/stake-pool-course/setup-aws-11-connect-2.png)
 
-
 Congratulations! You have now access to a machine running Linux.
-
-
 
 :::tip questions or suggestions?
 

@@ -3,14 +3,14 @@ id: portal-style-guide
 title: Style Guide
 sidebar_label: Style Guide
 description: Style guide for the Cardano developer portal.
-image: ./img/og-developer-portal.png
+image: ../img/og/og-developer-portal.png
 ---
 
 You can write content using [GitHub-flavored Markdown syntax](https://github.github.com/gfm/). [Markdown](https://github.github.com/gfm/) is a way to style text on the web. You control the display of the document; formatting words as bold or italic, adding images, and creating lists are just a few of the things we can do with Markdown. Mostly, Markdown is just regular text with a few non-alphabetic characters thrown in, like `#` or `*`.
 
 ## Markdown Examples
 
-This page will help you learn about the Markdown used in the Cardano Developer Portal, but the list is not intended to be exhaustive. Read the [docusaurus markdown features](https://docusaurus.io/docs/next/markdown-features) for more examples.
+This page will help you learn about the Markdown used in the Cardano Developer Portal, but the list is not intended to be exhaustive. Read the [docusaurus Markdown features](https://docusaurus.io/docs/next/markdown-features) for more examples.
 
 Let's start with the basics:
 
@@ -165,7 +165,7 @@ Inline-style: ![alt text](../static/img/logo-plutus-small.png 'This is the Plutu
 Reference-style: ![alt text][logo]
 [logo]: https://raw.githubusercontent.com/adam-p/markdown-here/master/src/common/images/icon48.png 'This is a logo reference-style'
 
-Images from any folder can be used by providing path to file. Path should be relative to markdown file:
+Images from any folder can be used by providing path to file. Path should be relative to Markdown file:
 ![alt text](../static/img/logo-plutus.png)
 ```
 
@@ -175,7 +175,7 @@ Inline-style: ![alt text](../static/img/logo-plutus-small.png 'This is the Plutu
 Reference-style: ![alt text][logo]
 [logo]: https://raw.githubusercontent.com/adam-p/markdown-here/master/src/common/images/icon48.png 'This is a logo reference-style'
 
-Images from any folder can be used by providing path to file. Path should be relative to markdown file:
+Images from any folder can be used by providing path to file. Path should be relative to Markdown file:
 ![alt text](../static/img/logo-plutus.png)
 
   </TabItem>
@@ -220,7 +220,7 @@ Images from any folder can be used by providing path to file. Path should be rel
 
 ## Code
 
-In the developer portal you will often have to display code. You can display code with different syntax highlighting:
+In the developer portal, you will often have to display code. You can display code with different syntax highlighting:
 <Tabs
   defaultValue="js"
   values={[
@@ -361,7 +361,7 @@ function HelloCodeTitle(props) {
 
 ## Tabs
 
-You can use tabs for example to display code examples in different languages:
+You can use tabs to display code examples in different languages. For example:
 
 ```html
 import Tabs from '@theme/Tabs';
@@ -712,13 +712,13 @@ Please try to avoid other style elements, and always keep in mind that people wi
 
 Last but not least, let's talk about editors, extensions and configurations.
 
-You can use any text editor you like to write markdown. [Visual Studio Code](https://code.visualstudio.com/), [Sublime](https://www.sublimetext.com/), [Atom](https://atom.io/), etc. have plugins that help you adhere to style guides by displaying warnings if you break the rules.
+You can use any text editor you like to write Markdown. [Visual Studio Code](https://code.visualstudio.com/), [Sublime](https://www.sublimetext.com/), [Atom](https://atom.io/), etc. have plugins that help you adhere to style guides by displaying warnings if you break the rules.
 
 Below are some extensions for these editors that help you write clean guides for the developer portal.
 
 ### markdownlint
 
-Adds syntax highligting for markdown files and display configurable warnings for invalid formatting.
+Adds syntax highligting for Markdown files and display configurable warnings for invalid formatting.
 
 <Tabs
   defaultValue="vscode"
@@ -803,7 +803,7 @@ Helps you work with tables
 
 ### rest-book
 
-When you write guides for `cardano-wallet` or other components with an API, you might want to include the response for a certain request in your guide. It can be useful not to leave the environment of your editor as to not loose focus or get distracted. `rest-book` allows you to execute HTTP requests within your editor.
+When you write guides for `cardano-wallet` or other components with an API, you might want to include the response for a certain request in your guide. It can be useful not to leave the environment of your editor as to not lose focus or get distracted. `rest-book` allows you to execute HTTP requests within your editor.
 
 <Tabs
   defaultValue="vscode"
@@ -819,3 +819,34 @@ When you write guides for `cardano-wallet` or other components with an API, you 
 </TabItem>
 
 </Tabs>
+
+## Editorial Style Guide
+To make everything consistent we should agree on spellings and terms here.
+
+|  Spelling/Term   | Comment                    |
+| ---------------- | -------------------------- |
+| `ada`            | When talking about the cryptocurrency, do not capitalize, unless at the beginning of a sentence. The idea behind this is to treat it like dollars or euros. If you are in doubt, in English, prefer ada over ADA. Capitalised ADA stands for the ticker symbol only. |
+| `ADA`           | The ticker symbol for ada, like EUR or USD. |
+| `tAda`           | Test ada is tAda, not tADA or TADA. See `ada`. |
+| `Basho`           | The fourth era of the Cardano development focused on performance. Named after Matsuo Basho, a Japanese poet and the master of haiku. |
+| `Byron`           | First era in Cardano development. Named after the Romantic poet who was the father of Ada Lovelace. |
+| `the Cardano Foundation`           | Always use **the** Cardano Foundation. |
+| `DApps` | Note the capitalization: Decentralized Application. |
+| `dcSpark` | Creators of Flint Wallet and Milkomeda. Capitalized S, everything else lower case. |
+| `EMURGO` | All caps in line with EMURGO’s branding. |
+| `the Foundation` | Interchangeable with `the Cardano Foundation`, the is not capitalized, but Foundation should be. |
+| `GitHub` | Note the capitalized H. |
+| `Goguen` | The third era of the Cardano development focused on smart contracts. Named in honour of Joseph Goguen, an US computer scientist. |
+| `IOHK` | IOHK is now IOG. |
+| `IOG` | IOG was IOHK. |
+| `mainnet`    | One word. |
+ `Ouroboros`           | Ouroboros is a family of Cardano's consensus protocols. There are different flavors: Classic, Praos, Genesis, Chronos, Hydra |
+| `sidechains` | One word. |
+| `stake pool` | Two words. |
+| `staking`    | Try to avoid term `staking` without context as it is ambiguous. `staking` refers to the whole process of both delegating and setting up a pool but many people confuse this with the actual process of creating blocks. `delegating` means that people delegate their stake to a stake pool. |
+| `Strica` | Creators of Typhon Wallet, Cardanoscan and Flac Finance. Capitalized S, everything else lower case. |
+| `proof of stake` | Lower case. Hyphenate when followed by a noun: proof-of-stake systems. |
+| `proof of work` | Lower case. Hyphenate when followed by a noun: proof-of-work systems. |
+| `use case` | Not use-case. |
+| `Voltaire` | The fifth era of the Cardano development focused on governance and treasury. Named after the French philosopher who prized criticism and argued for the separation of church and state. |
+| `white paper` | Two words. |

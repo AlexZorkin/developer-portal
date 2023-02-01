@@ -3,7 +3,7 @@ id: how-to-create-a-metadata-transaction-cli
 title: How to create a metadata transaction using cardano-cli
 sidebar_label: Create a metadata transaction (CLI)
 description: How to create a metadata transaction using `cardano-cli`
-image: ./img/og-developer-portal.png
+image: ../img/og/og-developer-portal.png
 ---
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
@@ -55,7 +55,7 @@ cardano-cli address build \
 --testnet-magic 1097911063
 ```
 
-Now that you have a **wallet address**, you can now request some `tADA` funds from the [testnet faucet](../integrate-cardano/testnet-faucet). 
+Now that you have a **wallet address**, you can now request some `tAda` funds from the [testnet faucet](../../docs/integrate-cardano/testnet-faucet). 
 
 Once you have some funds, we can now create the sample metadata that we want to store into the blockchain.
 
